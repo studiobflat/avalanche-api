@@ -1,6 +1,6 @@
-# avalanche-go
+# avalanche-api
 
-`avalanche-go` includes all the public API calls that are available on an AvalancheGo instance.
+`avalanche-api` includes all the public API calls that are available on an AvalancheGo instance.
 
 ## TODO's
 
