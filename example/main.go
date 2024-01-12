@@ -35,4 +35,17 @@ func main() {
 	} else {
 		sugar.Infow("the information about a transaction from the transaction hash", "transaction", n)
 	}
+
+	if n, err := evm.GetBlockByNumber("0x1BB242C", true); err != nil {
+		sugar.Errorw("failed to get latest block of the given block number", "error", err)
+	} else {
+		sugar.Infow("block data of the given block number", "block", n)
+
+		var transactions []any
+		if err := n.OutArray("transactions", &transactions).Error(); err != nil {
+			sugar.Errorw("failed to extract transactions data", "error", err)
+		}else {
+			sugar.Infow("transactions data", "transactions", transactions)
+		}
+	}
 }

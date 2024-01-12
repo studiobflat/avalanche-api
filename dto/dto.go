@@ -20,7 +20,7 @@ func (p P) Success() bool {
 }
 
 // GetString get string value from map
-func (p P) getValue(key string) (interface{}, error) {
+func (p P) getValue(key string) (any, error) {
 	v, exists := p[key]
 	if !exists {
 		return "", fmt.Errorf("key not found: %s", key)
@@ -43,6 +43,23 @@ func (p P) OutStr(name string, out *string) P {
 	}
 
 	*out = str
+	return p
+}
+
+func (p P) OutArray(name string, out *[]any) P {
+	v, err := p.getValue(name)
+	if err != nil {
+		p[defaultErrorKey] = err
+		return p
+	}
+
+	ar, cast := v.([]any)
+	if !cast {
+		p[defaultErrorKey] = fmt.Errorf("key (%s) cannot cast to array", name)
+		return p
+	}
+
+	*out = ar
 	return p
 }
 
