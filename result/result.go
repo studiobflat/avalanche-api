@@ -1,7 +1,9 @@
-package dto
+package result
 
 import (
 	"fmt"
+
+	"github.com/mitchellh/mapstructure"
 )
 
 const defaultErrorKey = "__ERROR"
@@ -19,7 +21,6 @@ func (p P) Success() bool {
 	return v
 }
 
-// GetString get string value from map
 func (p P) getValue(key string) (any, error) {
 	v, exists := p[key]
 	if !exists {
@@ -29,6 +30,7 @@ func (p P) getValue(key string) (any, error) {
 	return v, nil
 }
 
+// OutStr get string value from map
 func (p P) OutStr(name string, out *string) P {
 	v, err := p.getValue(name)
 	if err != nil {
@@ -46,23 +48,23 @@ func (p P) OutStr(name string, out *string) P {
 	return p
 }
 
-func (p P) OutArray(name string, out *[]any) P {
+// OutStructure decodes value of given key to the target pointer specified
+func (p P) OutStructure(name string, out any) P {
 	v, err := p.getValue(name)
 	if err != nil {
 		p[defaultErrorKey] = err
 		return p
 	}
 
-	ar, cast := v.([]any)
-	if !cast {
-		p[defaultErrorKey] = fmt.Errorf("key (%s) cannot cast to array", name)
+	if err := mapstructure.Decode(v, out); err != nil {
+		p[defaultErrorKey] = err
 		return p
 	}
 
-	*out = ar
 	return p
 }
 
+// OutStr get boolean value from map
 func (p P) OutBool(name string, out *bool) P {
 	v, err := p.getValue(name)
 	if err != nil {
@@ -87,4 +89,14 @@ func (p P) Error() error {
 	}
 
 	return nil
+}
+
+// Out decodes P to the target pointer specified
+func (p P) Out(out any) P {
+	if err := mapstructure.Decode(p, out); err != nil {
+		p[defaultErrorKey] = err
+		return p
+	}
+
+	return p
 }

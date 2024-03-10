@@ -1,11 +1,11 @@
 package evm
 
-import "github.com/studiobflat/avalanche-api/dto"
+import "github.com/studiobflat/avalanche-api/result"
 
-func (e *Evm) GetBlockByNumber(latest string, safe bool) (*dto.P, error) {
-	output := dto.P{}
+func (avax *avalanche) GetBlockByNumber(latest string, safe bool) (*result.P, error) {
+	output := result.P{}
 
-	err := e.node.NewRequest("ext/bc/C/rpc", "eth_getBlockByNumber", &output, latest, safe)
+	err := avax.node.NewRequest("ext/bc/C/rpc", "eth_getBlockByNumber", &output, latest, safe)
 	if err != nil {
 		return nil, err
 	}

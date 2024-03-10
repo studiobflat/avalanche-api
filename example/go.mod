@@ -11,6 +11,7 @@ require (
 
 require (
 	github.com/google/go-cmp v0.6.0 // indirect
+	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/ybbus/jsonrpc v2.1.2+incompatible // indirect
 	go.uber.org/multierr v1.10.0 // indirect
 	golang.org/x/net v0.20.0 // indirect
