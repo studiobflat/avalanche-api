@@ -10,6 +10,7 @@ type Evm interface {
 	GetBlockByNumber(latest string, safe bool) (*result.P, error)
 	GetTransactionByHash(hash string) (*result.P, error)
 	GetTransactionReceipt(hash string) (*result.P, error)
+	GetBalance(address, blockNumber string) (string, error)
 }
 
 // NewEvm accesses to avalanche node evm APIs

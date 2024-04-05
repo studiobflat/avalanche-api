@@ -106,4 +106,10 @@ func main() {
 			sugar.Infow("receipt data", "receipt", receipt)
 		}
 	}
+
+	if r, err := evm.GetBalance("0x820891f8b95daf5ea7d7ce7667e6bba2dd5c5594", "latest"); err != nil {
+		sugar.Errorw("failed to get balance of the given account", "error", err)
+	} else {
+		sugar.Infow("balance of the given account", "balance", r)
+	}
 }
